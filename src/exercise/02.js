@@ -3,18 +3,30 @@
 
 import * as React from 'react'
 
-function Greeting({initialName = ''}) {
-  // 🐨 initialize the state to the value from localStorage
-  // 💰 window.localStorage.getItem('name') ?? initialName
-  const [name, setName] = React.useState(initialName)
 
-  // 🐨 Here's where you'll use `React.useEffect`.
-  // The callback should set the `name` in localStorage.
-  // 💰 window.localStorage.setItem('name', name)
+function useLocalStorageState(key, defaultValue = '') {
+  // 🐨 initialize the state to the value from localStorage
+  const [state, setState] = React.useState(
+    () => window.localStorage.getItem(key) || defaultValue,
+  )
+  //anytime the component renders (initial render and every update), this function is going to get called:
+  React.useEffect(() => {
+    // 🐨 Here's where you'll use `React.useEffect`.
+    // The callback should set the `name` in localStorage.
+    window.localStorage.setItem('name', state)
+    //add "name" in dependency array
+  }, [key, state])
+
+  return [state, setState]
+}
+
+function Greeting({initialName = ''}) {
+  const [name, setName] = useLocalStorageState('name', initialName)
 
   function handleChange(event) {
     setName(event.target.value)
   }
+
   return (
     <div>
       <form>
@@ -27,7 +39,7 @@ function Greeting({initialName = ''}) {
 }
 
 function App() {
-  return <Greeting />
+  return <Greeting initialName="George" />
 }
 
 export default App
