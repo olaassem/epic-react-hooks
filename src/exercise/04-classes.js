@@ -3,6 +3,7 @@
 // http://localhost:3000/isolated/exercise/04-classes.js
 
 import * as React from 'react'
+//import {useLocalStorageState} from '../utils'
 
 // If you'd rather practice refactoring a class component to a function
 // component with hooks, then go ahead and do this exercise.
@@ -13,6 +14,12 @@ import * as React from 'react'
 
 
 function Board() {
+  // Using useLocalStorageState hook (also means deleting the useEfect hook)
+  // const [squares, setSquares] = React.useLocalStorageState(
+  //   'squares',
+  //    Array(9).fill(null),
+  // )
+
   // gets called at every render of the component so we use lazy initialization with the arrow function:
   const [squares, setSquares] = React.useState(
     () =>
